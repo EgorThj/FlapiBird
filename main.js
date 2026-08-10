@@ -2,7 +2,7 @@ import kaplay from "https://unpkg.com/kaplay@3001.0.19/dist/kaplay.mjs";
 
 
 kaplay({
-    width: 200,
+    width: 500,
     height: 200,
     background: "#d46eb3",
     scale: 2,
@@ -10,10 +10,11 @@ kaplay({
 });
 loadSprite("bird", "Flapybird.png")
 loadSprite("bg", "Background.png")
+loadSprite("ps", "24234.png")
 setGravity(180)
 let bird = add([
     sprite("bird"),
-    pos(20,150),
+    pos(50,50),
     scale(0.07),
     body(),
     area(),
@@ -36,9 +37,40 @@ let bg = add([
     fixed(), 
     z(-100)
 ]);
+let pipes =add([
+    sprite("ps"),
+    pos(20,-100),
+    area(),
+    scale(1.5),
+    "pipes"
+]) 
 onKeyPress("space",function(){
     bird.jump(100)
 })
 onCollide("enemy","bird",function(){
     console.log("wewrewer")
 })
+let state = "start"
+let btn = add([
+    rect(100,40,{radius:8}),
+    pos(width()/2,height()/2),
+    color(0,255,0),
+    anchor("center"),
+    area(),
+    "startBtn",
+    
+])
+btn.add([
+    text("Click",{size:15}),
+    anchor("center")
+    
+])
+onClick("startBtn",()=>{
+    state = "game"
+    btn.hidden  = true
+})
+function getRandomInt(min, max) {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); 
+}
