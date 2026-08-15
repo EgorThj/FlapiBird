@@ -10,7 +10,7 @@ kaplay({
 });
 loadSprite("bird", "Flapybird.png")
 loadSprite("bg", "Background.png")
-loadSprite("ps", "24234.png")
+loadSprite("ps", "newPipe.png")
 setGravity(180)
 let bird = add([
     sprite("bird"),
@@ -37,13 +37,7 @@ let bg = add([
     fixed(), 
     z(-100)
 ]);
-let pipes =add([
-    sprite("ps"),
-    pos(20,-100),
-    area(),
-    scale(1.5),
-    "pipes"
-]) 
+
 onKeyPress("space",function(){
     bird.jump(100)
 })
@@ -74,3 +68,37 @@ function getRandomInt(min, max) {
   const maxFloored = Math.floor(max);
   return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); 
 }
+function createPipes(){
+    const randInt = getRandomInt(80,120)
+    let pipe1 =add([
+        sprite("ps"),
+        pos(500,randInt),
+        area(),
+        scale(0.2),
+        move(LEFT,70),
+        offscreen({destroy:true}),
+        "pipes"
+    ]) 
+    let pipe2 =add([
+        sprite("ps"),
+        pos(500,randInt-50),
+        area(),
+        scale(0.2),
+        rotate(180),
+        move(LEFT,70),
+        offscreen({destroy:true}),
+        "pipes"
+    ]) 
+    
+}
+onCollide("bird","pipe1",function(){
+    type = 
+})
+onUpdate(function(){
+    if (type === "game"){
+        loop(2.5,function(){
+            createPipes()
+            
+        })    
+    }
+})
