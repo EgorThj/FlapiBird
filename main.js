@@ -8,9 +8,9 @@ kaplay({
     scale: 2,
     canvas: document.getElementById("canvas"),
 });
-loadSprite("bird", "Flapybird.png")
-loadSprite("bg", "Background.png")
-loadSprite("ps", "24234.png")
+loadSprite("bird", "./sprites/Flapybird.png")
+loadSprite("bg", "./sprites/Background.png")
+
 setGravity(180)
 let bird = add([
     sprite("bird"),
