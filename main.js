@@ -61,7 +61,14 @@ let bg = add([
   fixed(),
   z(-100)
 ]);
-
+let scoore = 0
+let score = add([
+   text("0", { size: 20 }),
+   anchor("center"),
+   color(0,0,0),
+   pos(220,15),
+   z(100)
+])
 // события
 onKeyPress("space", function () {
   bird.jump(100)
@@ -72,8 +79,17 @@ onCollide("enemy", "bird", function () {
 })
 
 onClick("startBtn", () => {
-  state = "game"
-  btn.hidden = true
+  if (state === "start"){
+        timer.paused =  false
+        state = "game"
+        btn.hidden = true
+        bird.paused = false
+    }
+    else if (state === "game over"){
+        timer.paused =  true
+        state = "start"
+        bird.paused = false
+    }
 })
 
 function getRandomInt(min, max) {
@@ -103,18 +119,37 @@ function createPipes() {
     offscreen({ destroy: true }),
     "pipe"
   ])
+  let trigger = add([
+    rect(100,10), 
+    pos(510,randInt - 80),
+    move(LEFT, 70),
+    rotate(90),
+    area(),
+    "trigger"
+  ])
 
 }
+onCollide("bird","trigger",function(){
+  scoore+=1
+  console.log(scoore)
+  score.text = scoore.toString()
+})
 onCollide("bird", "pipe", function () {
   state = 'game over'
+  destroyAll("pipe")
+  destroyAll("trigger")
+  bird.paused = true
+  timer.paused = true
+  btn.hidden = false
+  scoore = 0
 })
-// onUpdate(function(){
-//     if (type === "game"){
 
-//     }
-// })
 
-loop(2.5, function () {
+let  timer = loop(2.5, function () {
   createPipes()
 
 })   
+timer.paused = true
+onKeyPress("p",function(){
+    timer.paused = true
+})
