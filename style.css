@@ -1,5 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Pixel&display=swap');
 body{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(49, 63, 107);
+    flex-direction: column;
+}
+canvas{
+    box-shadow: 0 0 5px white;
+    border-radius: 10px;
+}
+h1{
+    color: white;
+    font-family: "Geist Pixel", sans-serif;
 }

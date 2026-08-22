@@ -41,15 +41,15 @@ let groud = add([
 ])
 
 let btn = add([
-  rect(100, 40, { radius: 8 }),
+  rect(120, 40, { radius: 8 }),
   pos(width() / 2, height() / 2),
-  color(0, 255, 0),
+  color(0, 235, 0),
   anchor("center"),
   area(),
   "startBtn",
 ])
 
-btn.add([
+let textBtn = btn.add([
   text("Click", { size: 15 }),
   anchor("center")
 
@@ -63,33 +63,27 @@ let bg = add([
 ]);
 let scoore = 0
 let score = add([
-   text("0", { size: 20 }),
-   anchor("center"),
-   color(0,0,0),
-   pos(220,15),
-   z(100)
+  text(scoore, { size: 20 }),
+  anchor("center"),
+  color(255,255,255),
+  pos(10, 15),
+  z(100),
+
 ])
 // события
 onKeyPress("space", function () {
   bird.jump(100)
 })
-
-onCollide("enemy", "bird", function () {
-  console.log("wewrewer")
-})
-
+bird.hidden = true
 onClick("startBtn", () => {
-  if (state === "start"){
-        timer.paused =  false
-        state = "game"
-        btn.hidden = true
-        bird.paused = false
-    }
-    else if (state === "game over"){
-        timer.paused =  true
-        state = "start"
-        bird.paused = false
-    }
+  timer.paused = false
+  btn.hidden = true
+  bird.paused = false
+  bird.hidden = false
+  score.text = 0
+  textBtn.text = "Начать игру?"
+  bird.pos.y = 10
+
 })
 
 function getRandomInt(min, max) {
@@ -120,36 +114,46 @@ function createPipes() {
     "pipe"
   ])
   let trigger = add([
-    rect(100,10), 
-    pos(510,randInt - 80),
+    rect(100, 10),
+    pos(510, randInt - 80),
     move(LEFT, 70),
     rotate(90),
     area(),
+    opacity(0),
     "trigger"
-  ])
+  ]) 
 
 }
-onCollide("bird","trigger",function(){
-  scoore+=1
+onCollide("bird", "trigger", function () {
+  scoore += 1
   console.log(scoore)
   score.text = scoore.toString()
 })
 onCollide("bird", "pipe", function () {
-  state = 'game over'
   destroyAll("pipe")
   destroyAll("trigger")
   bird.paused = true
   timer.paused = true
   btn.hidden = false
   scoore = 0
+  bird.hidden = true
 })
 
 
-let  timer = loop(2.5, function () {
+let timer = loop(2.5, function () {
   createPipes()
 
-})   
+})
 timer.paused = true
-onKeyPress("p",function(){
-    timer.paused = true
+onKeyPress("p", function () {
+  timer.paused = true
+})
+onCollide("bird", "enemy", function () {
+  destroyAll("pipe")
+  destroyAll("trigger")
+  bird.paused = true
+  timer.paused = true
+  btn.hidden = false
+  scoore = 0
+  bird.hidden = true
 })
