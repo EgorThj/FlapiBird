@@ -83,6 +83,7 @@ onClick("startBtn", () => {
   score.text = 0
   textBtn.text = "Начать игру?"
   bird.pos.y = 10
+  btn.paused = true
 
 })
 
@@ -154,6 +155,7 @@ onCollide("bird", "enemy", function () {
   bird.paused = true
   timer.paused = true
   btn.hidden = false
+  btn.paused = false
   scoore = 0
   bird.hidden = true
 })
